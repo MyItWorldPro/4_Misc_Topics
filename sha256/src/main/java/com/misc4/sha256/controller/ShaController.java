@@ -2,6 +2,8 @@ package com.misc4.sha256.controller;
 
 import com.misc4.sha256.dto.PassAuthReqRespDto;
 import com.misc4.sha256.service.ShaServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ import javax.validation.Valid;
 @RequestMapping("/auth/")
 public class ShaController {
 
+    private static final Logger logger = LoggerFactory.getLogger(ShaController.class);
+
     @Autowired
     ShaServiceImpl shaServiceImpl;
 
@@ -28,6 +32,13 @@ public class ShaController {
         } else {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
+    }
+
+    @PostMapping(value = "httpRequestAuth")
+    public ResponseEntity<PassAuthReqRespDto> httpRequestAuth(
+            @Valid @RequestBody(required = true) PassAuthReqRespDto passAuthRequest) {
+        logger.info("Request Body: {}", passAuthRequest.toString());
+        return new ResponseEntity<>(passAuthRequest, HttpStatus.OK);
     }
 
 }

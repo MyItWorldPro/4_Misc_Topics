@@ -36,4 +36,13 @@ public class PassAuthReqRespDto {
     public void setSha256Signature(String sha256Signature) {
         this.sha256Signature = sha256Signature;
     }
+
+    @Override
+    public String toString() {
+        return "PassAuthReqRespDto{" +
+                "userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", sha256Signature='" + sha256Signature + '\'' +
+                '}';
+    }
 }
