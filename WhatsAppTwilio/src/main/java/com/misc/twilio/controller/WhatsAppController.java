@@ -1,6 +1,7 @@
 package com.misc.twilio.controller;
 
 import com.misc.twilio.dto.SendWAMsgDto;
+import com.misc.twilio.dto.WhatsAppWebhookDto;
 import com.misc.twilio.service.WhatsAppServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -28,6 +30,13 @@ public class WhatsAppController {
         logger.info("sendWhatsAppMsg request={}", sendWAMsgDto.toString());
         whatsAppServiceImpl.sendWhatsAppMessage(sendWAMsgDto);
         return new ResponseEntity<>("Successfully sent WhatsApp message!", HttpStatus.OK);
+    }
+
+    @PostMapping("/getTwilioWebhook")
+    public ResponseEntity<WhatsAppWebhookDto> getTwilioWebhook(HttpServletRequest webhookResponse) {
+        logger.info("Webhook Response={}", webhookResponse.getParameterMap());
+        WhatsAppWebhookDto whatsAppWebhookDto = whatsAppServiceImpl.processWhatsAppWebhook(webhookResponse.getParameterMap());
+        return new ResponseEntity<>(whatsAppWebhookDto, HttpStatus.OK);
     }
 
 }
