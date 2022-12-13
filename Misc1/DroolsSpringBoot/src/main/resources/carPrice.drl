@@ -1,0 +1,23 @@
+package KieRule;
+import com.misc1.DroolsSpringBoot.dto.CarDetailsDto;
+
+rule "Less than 2010 model rule"
+    when
+        carObj : CarDetailsDto(carModelYear <= 2010);
+    then
+        carObj.setCarSellingPricePercentage(25);
+    end;
+
+rule "more than 2010 and less than 2015 model rule"
+    when
+        carObj : CarDetailsDto(carModelYear > 2010 && carModelYear <= 2015);
+    then
+        carObj.setCarSellingPricePercentage(35);
+    end;
+
+rule "more than 2015 and less than 2020 model rule"
+    when
+        carObj : CarDetailsDto(carModelYear > 2015 && carModelYear <= 2020);
+    then
+        carObj.setCarSellingPricePercentage(45);
+    end;

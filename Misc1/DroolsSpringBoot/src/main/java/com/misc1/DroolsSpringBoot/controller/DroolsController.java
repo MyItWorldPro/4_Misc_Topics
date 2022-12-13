@@ -1,6 +1,8 @@
 package com.misc1.DroolsSpringBoot.controller;
 
 import com.misc1.DroolsSpringBoot.dto.CarDetailsDto;
+import org.kie.api.runtime.KieSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/drools")
 public class DroolsController {
+
+    @Autowired
+    private KieSession kieSession;
 
     @PostMapping(value = "traditionalWay")
     public ResponseEntity<CarDetailsDto> traditionalWay(
@@ -30,6 +35,9 @@ public class DroolsController {
     @PostMapping(value = "droolsEngine")
     public ResponseEntity<CarDetailsDto> droolsEngine(
             @RequestBody CarDetailsDto carDetailsDto) {
+
+        kieSession.insert(carDetailsDto);
+        kieSession.fireAllRules();
 
         return new ResponseEntity<>(carDetailsDto, HttpStatus.OK);
     }
